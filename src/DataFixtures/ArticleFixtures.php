@@ -4,9 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\Article;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class ArticleFixtures extends Fixture
+class ArticleFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -18,11 +19,19 @@ class ArticleFixtures extends Fixture
             ->setCreatedAt(new \DateTime())
             ->setUpdatedAt(new \DateTime())
             ->setSlug("article-$i")
-            ->setIsPublished(true);
+            ->setIsPublished(true)
+            ->setCategory($this->getReference("cat" .$i));            ;
 
             $manager->persist($article);
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return[
+        CategoryFixtures::class
+        ];
     }
 }
