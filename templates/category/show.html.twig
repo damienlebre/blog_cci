@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Categorie{% endblock %}
+
+{% block body %}
+<h1>Consulter une catégorie</h1>
+<div class="Card text-whote bg-info mb-3">
+    <div class="card-header">Catégories</div>
+    <div class="card-body">
+    <h4 class="card-title">{{ category.name }}</h4>
+    <a class="btn btn-warning" href="{{ path('category_edit', {slug: category.slug}) }}">Modifier</a>
+     <a class="btn btn-danger" href="{{ path('category_delete', {slug: category.slug}) }}">Supprimer</a>
+    </div>
+</div>
+{% endblock %}

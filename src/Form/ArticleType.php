@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Article;
+use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -28,8 +30,9 @@ class ArticleType extends AbstractType
                         'max' => 75,
                         'maxMessage' => 'Le titre de l\article doit contenir au maximum {{ limit }} caractéres.'
                     ])
-                ]
+                ]                
             ])
+           
             ->add('content', TextareaType::class, [
                 'constraints' => [
                     new NotBlank([
@@ -41,7 +44,14 @@ class ArticleType extends AbstractType
                     ])
                 ]
             ])
-            ->add('isPublished', CheckboxType::class)
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                "choice_label" => 'name',
+                'placeholder' => 'Choississez une catégorie',
+            ])
+            ->add('isPublished', CheckboxType::class, [
+                'required' =>false
+            ])
         ;
     }
 
